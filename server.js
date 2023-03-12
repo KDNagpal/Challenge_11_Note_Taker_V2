@@ -10,9 +10,44 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static('public'));
 
-app.get('/notes', function(req,res) {
+//creates pathway
+app.get('/notes', (req,res) => {
     res.sendFile(path.join(__dirname, 'public/notes.html'))
-})
+});
+
+//route for getting all notes
+app.get('/api/notes', (req,res) => {
+const notes = getNotes()
+res.json(notes);
+console.log('Notes loaded!!')
+});
+
+//post route for new notes
+app.post('/api/notes', (req,res) => {
+    const notes = getNotes()
+    const newNote = {
+        id: notes.length + 1,
+        title: req.body.title,
+        text: req.body.text
+    };
+    notes.push(newNote);
+    saveNotes(notes);
+    res.json(newNote)
+    console.log('Note created!!')
+    });
+
+    //reads notes from .json file
+    function getNotes () {
+        const data = fs.readFileSync(path.join(__dirname,'db/db.json'), 'utf-8');
+        return JSON.parse(data);
+
+    }
+
+    //writes notes to .json file
+    function saveNotes(notes) {
+        const data =JSON.stringify(notes);
+        fs.writeFileSync(path.join(__dirname, 'db/db.json'), data);
+    }
 
 app.listen(PORT, () =>
 console.log(`Listening at http://localhost:${PORT}`));
