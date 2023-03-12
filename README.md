@@ -5,7 +5,7 @@
 ## Description
 
 This project was created tod to give users an easy to use way of taking notes via web browser.
-Link to project: https://ancient-dawn-24164.herokuapp.com/notes
+Link to project: https://ancient-dawn-24164.herokuapp.com/
 
 ## Table of Contents
 - [Installation](#Installation)
